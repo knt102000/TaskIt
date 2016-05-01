@@ -1,11 +1,12 @@
 package com.trial.chiutsui.taskit;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by chiutsui on 4/24/16.
  */
-public class Task {
+public class Task implements Serializable {
     private static final String TAG = "Task";
 
     private String mName;
@@ -39,4 +40,5 @@ public class Task {
     public String toString() {
         return mName;
     }
+
 }

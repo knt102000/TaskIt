@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TaskIt</string>
+    <string name="complete">Done</string>
+    <string name="save">Save</string>
+    <string name="newDate">Set Due Date</string>
+    <string name="addTask">Add Task</string>
 </resources>
