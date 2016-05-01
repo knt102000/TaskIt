@@ -3,10 +3,14 @@ package com.trial.chiutsui.taskit;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -54,6 +58,54 @@ public class TaskListActivity extends AppCompatActivity {
                 intent.putExtra(TaskActivity.EXTRA, task);
 
                 startActivityForResult(intent, EDIT_TASK_REQUEST);
+            }
+        });
+
+        list.getSelectedItemPosition();
+        list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        list.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(ActionMode actionMode, int position, long id, boolean checked) {
+
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                getMenuInflater().inflate(R.menu.menu_task_list_context,menu);
+
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                SparseBooleanArray checkedItems = list.getCheckedItemPositions();
+
+                int id = menuItem.getItemId();
+
+                if (id == R.id.deleteTask) {
+                    for (int i = checkedItems.size() - 1; i >= 0; i-- ) {
+                        if (checkedItems.valueAt(i)) {
+                            mItems.remove(checkedItems.keyAt(i));
+                        }
+                    }
+
+                    actionMode.finish();
+                    mAdapter.notifyDataSetChanged();
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode actionMode) {
+
             }
         });
     }
